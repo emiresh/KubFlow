@@ -84,3 +84,5 @@ The KubFlow application provides a comprehensive solution for continuous integra
 For detailed instructions and code samples, please refer to the [KubFlow GitHub repository](https://github.com/emiresh/KubFlow).
 
 Happy deploying!
+
+![Logo](https://github.com/emiresh/KubFlow/blob/master/docs/assets/images/logo/logo.svg)
