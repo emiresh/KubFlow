@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubflow-ingress
+  namespace: kubflow
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kubflow.research.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: kubflow-servicecl
+            port:
+              number: 80

@@ -1,0 +1,60 @@
+pipeline{
+    agent any
+
+    environment{
+        APP_NAME = "kubflowapp"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages{
+        
+        stage('CleanUP Workspace'){
+            steps{
+                script{
+                    cleanWs()
+                }
+            }
+        }
+
+        stage('Checkout SCM'){
+            steps{
+                script{
+                    git credentialsId: 'github',
+                    url: 'https://github.com/emiresh/kubflowcd.git',
+                    branch: 'master'
+                }
+            }
+        }
+
+        stage('Update the kubenrates deployment file'){
+            steps{
+                script{
+                    sh """
+                    cat deployment.yml
+                    sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml
+                    cat deployment.yml
+                    """
+                }
+            }
+        }
+
+        stage('Push the changed deployment file to Git'){
+            steps{
+                script{
+                    sh """
+                        git config --global user.name "emiresh"
+                        git config --global user.email "ireshek@gmail.com"
+                        git add deployment.yml
+                        git commit -m "updated the deployment file"
+                    """
+                    withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+
+                    sh "git push https://github.com/emiresh/kubflowcd.git master"
+                    
+                    }
+                }
+            }
+        }
+
+    }
+}

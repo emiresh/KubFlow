@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kubflow-service-monitor
+  namespace: kubflow
+  labels:
+    release: kube-prometheus-stack
+    app: kube-prometheus-stack
+spec:
+  jobLabel: job
+  endpoints:
+    - interval: 30s
+      port: kubflow-port
+      path: /swagger-stats/metrics
+  selector:
+    matchLabels:
+      app: kubflow
+  

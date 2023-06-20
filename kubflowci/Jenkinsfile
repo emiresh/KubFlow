@@ -1,0 +1,68 @@
+pipeline {
+  agent any
+
+  environment {
+    DOCKERHUB_USERNAME = "emiresh"
+    APP_NAME = "kubflowapp"
+    IMAGE_TAG = "${BUILD_NUMBER}"
+    IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+    REGISTRY_CREDS = "dockerhub"
+  }
+
+  stages {
+
+    stage('CleanUP Workspace') {
+      steps {
+        script {
+          cleanWs()
+        }
+      }
+    }
+
+    stage('Checkout SCM') {
+      steps {
+        script {
+          git credentialsId: 'github',
+            url: 'https://github.com/emiresh/kublflowci.git',
+            branch: 'master'
+        }
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        script {
+          docker_image = docker.build "${IMAGE_NAME}"
+        }
+      }
+    }
+
+    stage('Push Docker Image') {
+      steps {
+        script {
+          docker.withRegistry('', REGISTRY_CREDS) {
+            docker_image.push("$BUILD_NUMBER")
+            docker_image.push('latest')
+          }
+        }
+      }
+    }
+
+    stage('Delete Docker Images') {
+      steps {
+        script {
+          sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+          sh "docker rmi ${IMAGE_NAME}:latest"
+        }
+      }
+    }
+
+    stage('Trigger config change pipeline') {
+      steps {
+        sh "curl -v -k --user emiresh:1118b0c0db53c40b4eae038be965d10ed1 -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://18.224.251.32:8080/job/kubflowcd/buildWithParameters?token=kubflowcd'" 
+      }
+    }
+
+  }
+
+}

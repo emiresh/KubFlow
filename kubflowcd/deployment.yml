@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubflow-deployment
+  namespace: kubflow
+  labels:
+    app: kubflow
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubflow
+  template:
+    metadata:
+      labels:
+        app: kubflow
+    spec:
+      containers:
+      - name: kubflow-app
+        image: emiresh/kubflowapp:31
+        ports:
+        - containerPort: 5000
