@@ -1,4 +1,4 @@
-# KubFlow Application
+# KubFlow - Automate with KubFlow
 
 This repository contains the implementation and deployment instructions for the KubFlow application. KubFlow is a Kubernetes-based solution that facilitates continuous integration and continuous delivery (CI/CD) in software development. It automates the build, test, and deployment processes, providing a streamlined workflow for deploying microservices applications.
 
