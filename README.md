@@ -2,6 +2,8 @@
 
 This repository contains the implementation and deployment instructions for the KubFlow application. KubFlow is a Kubernetes-based solution that facilitates continuous integration and continuous delivery (CI/CD) in software development. It automates the build, test, and deployment processes, providing a streamlined workflow for deploying microservices applications.
 
+![Logo](https://github.com/emiresh/KubFlow/blob/master/docs/assets/images/hero/hero-image.png)
+
 ## Implementation
 
 ### Deployment Infrastructure (Kubernetes Cluster) - Using Terraform
@@ -85,4 +87,4 @@ For detailed instructions and code samples, please refer to the [KubFlow GitHub 
 
 Happy deploying!
 
-![Logo](https://github.com/emiresh/KubFlow/blob/master/docs/assets/images/logo/logo.svg)
+![Logo](https://github.com/emiresh/KubFlow/blob/master/docs/assets/images/logo/logo-white.svg)
